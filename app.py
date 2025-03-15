@@ -7,14 +7,28 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize, sent_tokenize
 
-# Manually set the data path
+# Set a consistent NLTK data path
 NLTK_PATH = "/opt/render/nltk_data"
+os.makedirs(NLTK_PATH, exist_ok=True)  # Create directory if it doesn't exist
 nltk.data.path.append(NLTK_PATH)
 
-# Ensure necessary datasets are downloaded
-nltk.download("punkt", download_dir=NLTK_PATH)
-nltk.download("stopwords", download_dir=NLTK_PATH)
+# Download necessary NLTK resources
+try:
+    nltk.download("punkt", download_dir=NLTK_PATH, quiet=True)
+    nltk.download("stopwords", download_dir=NLTK_PATH, quiet=True)
+    print(f"NLTK resources downloaded to {NLTK_PATH}")
+except Exception as e:
+    st.error(f"Failed to download NLTK resources: {str(e)}")
+    print(f"Error downloading NLTK resources: {str(e)}")
 
+# Verify the resources are available
+try:
+    stopwords.words('english')
+    word_tokenize("Test sentence.")
+    print("NLTK resources loaded successfully")
+except LookupError as e:
+    st.error(f"NLTK resource not found: {str(e)}")
+    print(f"NLTK resource error: {str(e)}")
 # Initialize Porter Stemmer
 ps = PorterStemmer()
 
