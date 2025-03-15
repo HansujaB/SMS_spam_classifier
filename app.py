@@ -1,13 +1,20 @@
 import streamlit as st
 import pickle
 import string
+import os
+import nltk
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
-import nltk
-nltk.download("punkt")
-nltk.download("stopwords")
-from nltk.tokenize import word_tokenize , sent_tokenize
-ps=PorterStemmer()
+from nltk.tokenize import word_tokenize, sent_tokenize
+
+# Download necessary NLTK data
+nltk.data.path.append('/opt/render/nltk_data')  # Manually set the data path
+nltk.download("punkt", download_dir='/opt/render/nltk_data')
+nltk.download("stopwords", download_dir='/opt/render/nltk_data')
+
+# Initialize Porter Stemmer
+ps = PorterStemmer()
+
 
 tfidf=pickle.load(open('vectorizer.pkl', 'rb'))
 model=pickle.load(open('model.pkl', 'rb'))
