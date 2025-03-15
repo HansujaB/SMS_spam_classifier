@@ -9,26 +9,19 @@ from nltk.tokenize import word_tokenize, sent_tokenize
 
 # Set a consistent NLTK data path
 NLTK_PATH = "/opt/render/nltk_data"
-os.makedirs(NLTK_PATH, exist_ok=True)  # Create directory if it doesn't exist
+os.makedirs(NLTK_PATH, exist_ok=True)
 nltk.data.path.append(NLTK_PATH)
 
 # Download necessary NLTK resources
 try:
     nltk.download("punkt", download_dir=NLTK_PATH, quiet=True)
+    nltk.download("punkt_tab", download_dir=NLTK_PATH, quiet=True)  # Add this specific resource
     nltk.download("stopwords", download_dir=NLTK_PATH, quiet=True)
     print(f"NLTK resources downloaded to {NLTK_PATH}")
 except Exception as e:
     st.error(f"Failed to download NLTK resources: {str(e)}")
     print(f"Error downloading NLTK resources: {str(e)}")
-
-# Verify the resources are available
-try:
-    stopwords.words('english')
-    word_tokenize("Test sentence.")
-    print("NLTK resources loaded successfully")
-except LookupError as e:
-    st.error(f"NLTK resource not found: {str(e)}")
-    print(f"NLTK resource error: {str(e)}")
+    
 # Initialize Porter Stemmer
 ps = PorterStemmer()
 
